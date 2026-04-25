@@ -1,155 +1,137 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>洗头佬邀请你视频通话</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: "Microsoft YaHei", sans-serif;
-            overflow: hidden;
-            background-color: #a31a1a;
-            color: white;
-            user-select: none;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内部导航门户</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8vh 0 5vh 0;
-            box-sizing: border-box;
-            background: linear-gradient(rgba(163, 26, 26, 0.85), rgba(163, 26, 26, 0.85)), 
-                        url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* 这个url可以换背景 */
-            z-index: 10;
-        }
+body {
+    font-family: "微软雅黑", "PingFang SC", sans-serif;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding: 60px 20px;
+}
 
-        .avatar-box {
-            width: 140px;
-            height: 140px;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
 
-        .info { text-align: center; margin-top: 25px; }
-        .info h1 { font-size: 2.2rem; margin: 0; font-weight: 500; }
-        .info p { font-size: 1.1rem; opacity: 0.8; margin-top: 12px; letter-spacing: 1px; }
+.top-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
 
-        .call-btn-container {
-            text-align: center;
-            cursor: pointer;
-            z-index: 20;
-        }
+.top-title h1 {
+    font-size: 36px;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
 
-        @keyframes breathe {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 217, 100, 0.7); }
-            50% { transform: scale(1.1); box-shadow: 0 0 20px 10px rgba(76, 217, 100, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 217, 100, 0); }
-        }
+.top-title p {
+    color: #6b7280;
+    font-size: 16px;
+}
 
-        .circle-btn {
-            width: 85px;
-            height: 85px;
-            background-color: #4cd964;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            animation: breathe 2s infinite ease-in-out;
-            transition: transform 0.1s;
-        }
+/* 宫格布局 两排/四格一排 自由调 */
+.grid-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
 
-        .circle-btn img { width: 45px; height: 45px; }
-        .btn-text { font-size: 1rem; letter-spacing: 2px; }
+.grid-item {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
-        .footer { text-align: center; }
-        .logo-img { width: 90px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
-        .copyright { font-size: 0.75rem; opacity: 0.5; margin-top: 8px; }
+.grid-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
 
-        #video-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: black; display: none; z-index: 100;
-        }
-        #video-overlay video { width: 100%; height: 100%; object-fit: cover; }
-    </style>
+.grid-item h3 {
+    font-size: 20px;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.grid-item span {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+/* 适配手机 自动变单列 */
+@media (max-width: 768px) {
+    .grid-box {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
-<body onclick="playBGMOnce()"> <div class="container" id="main-ui">
-        <div class="top-content">
-            <div class="avatar-box">
-                <img src="b.jpg" alt="头像">
-            </div>
-            <div class="info">
-                <h1>希忒乐</h1>
-                <p>邀请你视频通话...</p>
-            </div>
-        </div>
+<body>
 
-        <div class="call-btn-container" onclick="startVideo(event)">
-            <div class="circle-btn">
-                <img src="phone.svg" alt="接听">
-            </div>
-            <div class="btn-text">接听</div>
-        </div>
-
-        <div class="footer">
-            <img src="logo256.png" class="logo-img" alt="logo">
-            <div class="copyright">©2026 斯大林</div>
-        </div>
+<div class="container">
+    <div class="top-title">
+        <h1>内部综合导航门户</h1>
+        <p>内网系统 · 快速访问入口 · 内部专用</p>
     </div>
 
-    <div id="video-overlay">
-        <video id="mainVideo" loop playsinline>
-            <source src="mp4.mp4" type="video/mp4">
-        </video>
+    <div class="grid-box">
+        <!-- 内部链接 自行改地址和文字 -->
+        <a class="grid-item" href="http://192.168.1.100">
+            <h3>内部业务系统</h3>
+            <span>日常办公业务入口</span>
+        </a>
+
+        <a class="grid-item" href="http://192.168.1.101">
+            <h3>文件共享服务</h3>
+            <span>内部资料/文件存储</span>
+        </a>
+
+        <a class="grid-item" href="http://192.168.1.102">
+            <h3>管理后台</h3>
+            <span>系统管理与配置</span>
+        </a>
+
+        <a class="grid-item" href="http://192.168.1.103">
+            <h3>监控运维平台</h3>
+            <span>设备状态全网监控</span>
+        </a>
+
+        <a class="grid-item" href="https://daiw86112-ship-it.github.io/new2/">
+            <h3>子页面入口</h3>
+            <span>个人拓展页面</span>
+        </a>
+
+        <a class="grid-item" href="#">
+            <h3>预留站点</h3>
+            <span>待添加内部系统</span>
+        </a>
     </div>
 
-    <audio id="bgm" loop>
-        <source src="bgm.mp3" type="audio/mpeg">
-    </audio>
+    <div class="footer">
+        内部专属导航系统 © 2026
+    </div>
+</div>
 
-    <script>
-        const bgm = document.getElementById('bgm');
-        const mainVideo = document.getElementById('mainVideo');
-        const mainUI = document.getElementById('main-ui');
-        const videoOverlay = document.getElementById('video-overlay');
-        
-        let hasInteracted = false;
-
-        setTimeout(() => {
-            bgm.play().catch(() => {
-                console.log("点我！！！");
-            });
-        }, 500);
-
-        function playBGMOnce() {
-            if (!hasInteracted) {
-                bgm.play();
-                hasInteracted = true;
-            }
-        }
-
-        function startVideo(event) {
-            event.stopPropagation();
-            
-            bgm.pause();
-            bgm.currentTime = 0;
-
-            mainUI.style.display = 'none';
-            videoOverlay.style.display = 'block';
-            mainVideo.play();
-        }
-    </script>
 </body>
-</html>
+            </html>
